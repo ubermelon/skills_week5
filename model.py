@@ -8,20 +8,37 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-
 ##############################################################################
 # Part 1: Compose ORM
 
 class Model(db.Model):
 
     __tablename__ = "models"
-    pass
 
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    year = db.Column(db.Integer, nullable=False)
+    brand_name = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+
+    brand = db.relationship('Brand')
+
+    def __repr__(self):
+        return "<id=%s year=%s brand_name=%s name=%s>" % (self.id, self.year, self.brand_name, self.name)
 
 class Brand(db.Model):
 
     __tablename__ = "brands"
-    pass
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    founded = db.Column(db.Integer)
+    headquarters = db.Column(db.String(50))
+    discontinued = db.Column(db.Integer)
+
+    model = db.relationship('Model')
+
+    def __repr__(self):
+        return "<id=%s name=%s founded=%s headquarters=%s discontinued=%s>" % (self.id, self.name, self.founded, self.headquarters, self.discontinued)
 
 # End Part 1
 ##############################################################################
